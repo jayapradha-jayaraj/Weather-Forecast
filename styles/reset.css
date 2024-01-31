@@ -49,11 +49,18 @@ h1{
     border-style:none;
     color:white;
 }
-#forecastCard{
+#today{
     border-style: solid;
-    width:150px ;
-    height: 150px;
+}
+
+#forecast{
+  gap: 15px;
+}
+
+.card{
+    display: inline-block;
+    width:200px ;
+    height: 200px;
     background-color: blue;
     color: white;
 }
-

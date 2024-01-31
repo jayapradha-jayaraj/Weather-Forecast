@@ -4,13 +4,11 @@ $(document).ready(function () {
   var city ="London";
   aPICall(city);
 
-    debugger;
     $("#search-form").on("submit", function (search) {
-      //event.preventDefault();
       city="";
       city=$('#search-input').val();
       aPICall(city);
-    });
+    })
   //
   function aPICall(city){
     var apiURL = "https://api.openweathermap.org/data/2.5/forecast?";
@@ -64,7 +62,7 @@ $(document).ready(function () {
     // Function to display 5-day forecast
     function displayForecast(data) {
       var forecastSection = $("#forecast");
-      forecastSection.append('<h2>5 days Forcast</h2>');
+      forecastSection.append('<h2>5 days Forcast:</h2>');
   
       for (var i = 1; i < data.list.length; i += 8) {
         var forecastDate = dayjs(data.list[i].dt_txt).format('DD-MM-YYYY');
@@ -73,7 +71,7 @@ $(document).ready(function () {
   
         // Display forecast details for each day
         forecastSection.append(`
-          <div class="col-md-2 forecastCard">
+          <div class="col-md-2 card">
             <h3>${forecastDate}</h3>
             <img src="https://openweathermap.org/img/w/${forecastIcon}.png" alt="Weather Icon">
             <p>Temperature: ${forecastDetails.temp} °C</p>
