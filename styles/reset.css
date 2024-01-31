@@ -1,21 +1,40 @@
 body{
     background-image: linear-gradient(to right,rgba(6, 6, 237, 0.863),rgb(3, 3, 62));
 }
-.container-fluid{
-     position: absolute;
+.form-group{
+    grid-area: search;
 }
-.search{
-    
+.item2{
+    grid-area: today;
+}
+.item3{
+    grid-area: history;
+}
+.item4{
+    grid-area: forecastCard;
+}
+.item1{
+     position: absolute;
+     display: grid;
+     grid-template-areas: "search search"
+    "today today today today"
+    "history history"
+    "forecastCard forecastCard forecastCard forecastCard";
+    width: 1400px;
+    height: 1400px;
+    background-color: white;
+}
+.search{ 
     background-color: white;
     top:60px;
     position: relative;
-    width: auto;
-    height: 500px;
+ 
     padding-left:10px;
   
 }
 h1{
     color: white;
+    text-align: center;
    
 }
 #search-input{
@@ -30,8 +49,11 @@ h1{
     border-style:none;
     color:white;
 }
-#forecast{
+#forecastCard{
     border-style: solid;
-    width:auto ;
+    width:150px ;
     height: 150px;
+    background-color: blue;
+    color: white;
 }
+

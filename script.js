@@ -1,22 +1,25 @@
 // Wait for the DOM to be ready
 $(document).ready(function () {
+  //default behaviour
+  var city ="London";
+  aPICall(city);
+
     debugger;
-    $("#search-form").on("submit", function (event) {
-      event.preventDefault();
-      var apiURL = "https://api.openweathermap.org/data/2.5/forecast?";
-      var key = "245118ae7b6f36d46815fc40037a8563";
-      var city ="";
-      if(city!==""){
-        city=$('#search-input').val();
-      }else if(city!==""){
-        city="London";
-      } 
+    $("#search-form").on("submit", function (search) {
+      //event.preventDefault();
+      city="";
+      city=$('#search-input').val();
+      aPICall(city);
+    });
+  //
+  function aPICall(city){
+    var apiURL = "https://api.openweathermap.org/data/2.5/forecast?";
+      var key = "245118ae7b6f36d46815fc40037a8563"; 
       var queryURL = apiURL + "q=" + city + "&appid=" + key;
   
       // Fetch weather data
       fetchWeatherData(queryURL);
-    });
-  
+  }
     // Function to fetch weather data
     function fetchWeatherData(queryURL) {
       fetch(queryURL)
@@ -61,7 +64,7 @@ $(document).ready(function () {
     // Function to display 5-day forecast
     function displayForecast(data) {
       var forecastSection = $("#forecast");
-      forecastSection.empty();
+      forecastSection.append('<h2>5 days Forcast</h2>');
   
       for (var i = 1; i < data.list.length; i += 8) {
         var forecastDate = dayjs(data.list[i].dt_txt).format('DD-MM-YYYY');
@@ -70,7 +73,7 @@ $(document).ready(function () {
   
         // Display forecast details for each day
         forecastSection.append(`
-          <div class="col-md-2">
+          <div class="col-md-2 forecastCard">
             <h3>${forecastDate}</h3>
             <img src="https://openweathermap.org/img/w/${forecastIcon}.png" alt="Weather Icon">
             <p>Temperature: ${forecastDetails.temp} °C</p>
@@ -80,25 +83,28 @@ $(document).ready(function () {
       }
     }
   
-    // Function to add city to search history
     function addToSearchHistory(city) {
       var historyList = $("#history");
-  
+    
       // Check if the city is already in the search history
       if (!historyList.find(`[data-city="${city}"]`).length) {
         historyList.prepend(`
           <button class="list-group-item" data-city="${city}">${city}</button>
         `);
+    
+        // Store the city in local storage
+        storeCityInLocalStorage(city);
       }
     }
-  
-    // Event handler for clicking on a city in the search history
-    $("#history").on("click", "button", function () {
-      var selectedCity = $(this).data("city");
-      var queryURL = apiURL + "q=" + selectedCity + "&appid=" + key;
-  
-      // Fetch weather data for the selected city
-      fetchWeatherData(queryURL);
-    });
+    
+    function storeCityInLocalStorage(city) {
+      var cities = JSON.parse(localStorage.getItem('cities')) || [];
+    
+      // Add the new city to the array
+      cities.unshift(city);
+    
+      // Save the updated array back to local storage
+      localStorage.setItem('cities', JSON.stringify(cities));
+    }
   });
   
